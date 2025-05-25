@@ -1,0 +1,10 @@
+name: web-traffic-forecasting
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data: {type: str}
+    command: >
+      python modelling.py --data {data}
