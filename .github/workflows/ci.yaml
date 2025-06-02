@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CSV_URL: "MLProject/WEB_TRAFFIC_preprocessing.csv"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Check Env
+        run: |
+          echo $CSV_URL
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mlflow tensorflow matplotlib pandas numpy
+
+      - name: Run MLflow Project
+        run: |
+          mlflow run ./MLProject --env-manager=local -P data=$CSV_URL
+
+      - name: Save mlruns to repo
+        run: |
+          git config --global user.name ${{ secrets.username }}
+          git config --global user.email ${{ secrets.email }}
+          git add MLProject/mlruns/
+          git commit -m "Save mlruns from CI run"
+          git push origin main
