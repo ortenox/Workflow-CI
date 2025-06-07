@@ -18,7 +18,7 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         auto-update-conda: true
-        environment-file: conda.yaml
+        environment-file: MLProject/conda.yaml
         activate-environment: mlflow-env  # Ganti dengan nama env kamu jika beda
         python-version: 3.10
 
