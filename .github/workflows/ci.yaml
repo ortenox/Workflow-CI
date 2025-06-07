@@ -20,7 +20,7 @@ jobs:
     - name: Create conda environment from conda.yaml
       run: |
         eval "$(conda shell.bash hook)"
-        mamba env create -f conda.yaml -n test-env
+        conda env create -f conda.yaml -n test-env
 
     - name: List conda environments after creation
       run: |
