@@ -15,19 +15,18 @@ jobs:
       with:
         python-version: 3.10
         auto-update-conda: true
-        activate-environment: test-env
-        use-mamba: true
+        use-mamba: true  # Lebih cepat dan efisien
 
-    - name: Create conda environment (if not exists)
+    - name: Create conda environment from conda.yaml
       run: |
         eval "$(conda shell.bash hook)"
-        conda create -n test-env python=3.10 -y || echo "Environment exists"
+        mamba env create -f conda.yaml -n test-env || echo "env already exists"
 
-    - name: Install dependencies
+    - name: Activate environment and install additional dependencies
       run: |
         eval "$(conda shell.bash hook)"
         conda activate test-env
-        mamba install numpy pandas scikit-learn matplotlib -y
+        mamba install -y numpy pandas scikit-learn matplotlib
 
     - name: Print conda info
       run: |
@@ -45,4 +44,4 @@ jobs:
       run: |
         eval "$(conda shell.bash hook)"
         conda activate test-env
-        python MLProject/modelling.py
+        python modelling.py --data WEB_TRAFFIC_preprocessing.csv
