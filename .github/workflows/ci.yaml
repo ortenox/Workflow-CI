@@ -16,29 +16,33 @@ jobs:
         python-version: 3.10
         auto-update-conda: true
         activate-environment: test-env
-        environment-name: test-env
         use-mamba: true
+
+    - name: Create conda environment (if not exists)
+      run: |
+        eval "$(conda shell.bash hook)"
+        conda create -n test-env python=3.10 -y || echo "Environment exists"
 
     - name: Install dependencies
       run: |
-        source $CONDA/etc/profile.d/conda.sh
+        eval "$(conda shell.bash hook)"
         conda activate test-env
         mamba install numpy pandas scikit-learn matplotlib -y
 
     - name: Print conda info
       run: |
-        source $CONDA/etc/profile.d/conda.sh
+        eval "$(conda shell.bash hook)"
         conda activate test-env
         conda info
 
     - name: List all conda environments
       run: |
-        source $CONDA/etc/profile.d/conda.sh
+        eval "$(conda shell.bash hook)"
         conda activate test-env
         conda env list
 
     - name: Run modelling script
       run: |
-        source $CONDA/etc/profile.d/conda.sh
+        eval "$(conda shell.bash hook)"
         conda activate test-env
         python MLProject/modelling.py
